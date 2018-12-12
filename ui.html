@@ -1,8 +1,9 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<style>
+    input[type=text] { width: 100px; }
+</style>
 <script type=text/javascript>
-    var mro_images = [];
-    var gssi_images = [];
 
     $(function() {
         $("#mission").submit( function( e ) {
@@ -15,6 +16,19 @@
                 $("#job").html(' \
                     mission: \
                     <input type="text" name="mission" value="mro_ctx" readonly> \
+                    <br> \
+                    <br> \
+                    select images: \
+                    <br> \
+                    <input type="checkbox" name="img~gssi22!check" checked> \
+                    <img src="/static/gssi22.jpg"> \
+                    <input type="checkbox" name="img~gssi24!check" checked> \
+                    <img src="/static/gssi24.jpg"> \
+                    <input type="checkbox" name="img~gssi35!check" checked> \
+                    <img src="/static/gssi35.jpg"> \
+                    <br> \
+                    <br> \
+                    select programs: \
                     <br> \
                     <input type="checkbox" name="mroctx2isis!check" checked> \
                     mroctx2isis \
@@ -61,8 +75,10 @@
                     defaultrange \
                     <input type="text" name="cam2map!defaultrange" value="default"> \
                     <br> \
+                    <br> \
                     output: \
                     <input type="text" name="output" value="default"> \
+                    <br> \
                     <br> \
                     <input type="submit">'
                 );
@@ -71,6 +87,19 @@
                 $("#job").html(' \
                     mission: \
                     <input type="text" name="mission" value="galileo_ssi_edr" readonly> \
+                    <br> \
+                    <br> \
+                    select images: \
+                    <br> \
+                    <input type="checkbox" name="img~gssi22!check" checked> \
+                    <img src="/static/gssi22.jpg"> \
+                    <input type="checkbox" name="img~gssi24!check" checked> \
+                    <img src="/static/gssi24.jpg"> \
+                    <input type="checkbox" name="img~gssi35!check" checked> \
+                    <img src="/static/gssi35.jpg"> \
+                    <br> \
+                    <br> \
+                    select programs: \
                     <br> \
                     <input type="checkbox" name="gllssi2isis!check" checked> \
                     gllssi2isis \
@@ -110,10 +139,12 @@
                     defaultrange \
                     <input type="text" name="cam2map!defaultrange" value="default"> \
                     <br> \
+                    <br> \
                     output: \
                     <input type="text" name="output" value="default"> \
                     <br> \
-                    <input type="submit" name="submit">'
+                    <br> \
+                    <input type="submit" name=7"submit">'
                 );
             }
             else {
@@ -129,7 +160,7 @@
 
         $("#job").submit( function( e ) {
 
-            e.preventDefault();
+            //e.preventDefault();
 
             var form = $(this);
             var url = "/submit";
@@ -149,10 +180,12 @@
         <select name="mission">
             <option value="mro">MRO</option>
             <option value="gssi">GSSI</option>
+            <option value="notsupported">Apollo</option>
+            <option value="notsupported">Cassini</option>
         </select>
         <input type="submit" value="Select">
     </form>
-    <form id="job">
+    <form id="job" action="/submit" method="post">
         <!-- <select name="mission">
             <option value="mro">MRO</option>
             <option value="gssi">GSSI</option>

@@ -56,6 +56,14 @@ def submit():
         name = program[0]
         attribute = program[1]
 
+        if( "img" in name ):
+            if( form[key] == "on" ):
+                image_name = name.split("~")[1]
+                # TODO: This will be the archival image format
+                image_list.append( image_name + ".jpg" )
+
+            continue
+
         if( attribute == "check" and form[key] == "on" ):
             program_list.append([name, []])
         else:
@@ -66,7 +74,12 @@ def submit():
     recipe_json = json.loads( recipe_string )
     requests.post( "http://localhost:" + str(REST_API_PORT) + "/dagtest", headers={"content-type": "application/json"}, json=recipe_json )
 
-    return "Test successful."
+    page_string = ""
+
+    for image in image_list:
+        page_string += '<img src="/static/%s"> ' % image
+
+    return page_string
 
 
 @ui_app.route( "/handle_data", methods=["POST"] )
