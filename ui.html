@@ -13,6 +13,9 @@
 
             if( mission == "mro" ) {
                 $("#job").html(' \
+                    mission: \
+                    <input type="text" name="mission" value="mro_ctx" readonly> \
+                    <br> \
                     <input type="checkbox" name="mroctx2isis!check" checked> \
                     mroctx2isis \
                     from_ \
@@ -58,11 +61,16 @@
                     defaultrange \
                     <input type="text" name="cam2map!defaultrange" value="default"> \
                     <br> \
+                    <input type="text" name="output" value="default"> \
+                    <br> \
                     <input type="submit">'
                 );
             }
             else if ( mission == "gssi" ) {
-                $("#job").html('\
+                $("#job").html(' \
+                    mission: \
+                    <input type="text" name="mission" value="galileo_ssi_edr" readonly> \
+                    <br> \
                     <input type="checkbox" name="gllssi2isis!check" checked> \
                     gllssi2isis \
                     from_ \
@@ -101,7 +109,9 @@
                     defaultrange \
                     <input type="text" name="cam2map!defaultrange" value="default"> \
                     <br> \
-                    <input type="submit">'
+                    <input type="text" name="output" value="default"> \
+                    <br> \
+                    <input type="submit" name="submit">'
                 );
             }
             else {
@@ -112,12 +122,15 @@
     });
 
     $(function() {
-        $("#test").submit( function( e ) {
+
+        var $submitters = $("#job").find( "input[type=submit]" );
+
+        $("#job").submit( function( e ) {
 
             e.preventDefault();
 
             var form = $(this);
-            var url = "/formtest";
+            var url = "/submit";
             var method = "POST";
             $.ajax({
                 type: method,
@@ -126,6 +139,7 @@
             });
         });
     });
+
 </script>
 
 <div class='container'>
@@ -137,13 +151,11 @@
         <input type="submit" value="Select">
     </form>
     <form id="job">
-        <!-- <input type="checkbox" name="test!check" checked>
-        gllssi2isis
-        from_
-        <input type="text" name="test!from_">
-        to
-        <input type="text" name="test!to">
-        <input type="submit"> -->
+        <!-- <select name="mission">
+            <option value="mro">MRO</option>
+            <option value="gssi">GSSI</option>
+        </select>
+        <input type="submit" value="Select"> -->
     </form>
 
 </div>

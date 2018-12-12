@@ -35,13 +35,33 @@ def hello_world():
         return html.read()
 
 
-@ui_app.route( "/formtest", methods=["POST"] )
-def formtest():
+@ui_app.route( "/submit", methods=["POST"] )
+def submit():
 
-    print( request.form )
+    mission = ""
+    output = ""
+    program_list = []
+    image_list = []
+    form = request.form
 
-    for key in request.form.keys():
-        print( key, request.form[key] )
+    for key in form.keys():
+        if( key == "mission" ):
+            mission = form[key]
+            continue
+        elif( key == "output" ):
+            output = form[key]
+            continue
+
+        program = key.split("!")
+        name = program[0]
+        attribute = program[1]
+
+        if( attribute == "check" and form[key] == "on" ):
+            program_list.append([name, []])
+        else:
+            program_list[-1][1].append( [name, attribute] )
+
+    print( { "mission": mission, "tasks": program_list, "output": output, "images": image_list } )
 
     return "Test successful."
 
