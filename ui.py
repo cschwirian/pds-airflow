@@ -41,6 +41,7 @@ def submit():
     mission = ""
     output = ""
     program_list = []
+    included_program_list = []
     image_list = []
     form = request.form
 
@@ -52,7 +53,14 @@ def submit():
             output = form[key]
             continue
 
+
         program = key.split("!")
+
+        # The submit button is sometimes included in the data, which breaks
+        # things. This gets rid of it.
+        if( len(program) != 2 ):
+            continue
+
         name = program[0]
         attribute = program[1]
 
@@ -66,7 +74,8 @@ def submit():
 
         if( attribute == "check" and form[key] == "on" ):
             program_list.append([name, []])
-        else:
+            included_program_list.append( name )
+        elif( name in included_program_list ):
             program_list[-1][1].append( [attribute, form[key]] )
 
     recipe = {"mission":mission, "tasks":program_list, "output": output, "images": image_list }
