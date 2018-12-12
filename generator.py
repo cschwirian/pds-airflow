@@ -20,7 +20,7 @@ from datetime import datetime
 DEBUG = False
 TEST = True
 TEST_FILE = "REST_json.json"
-DAG_DIRECTORY = "/root/airflow/dags"
+DAG_DIRECTORY = "/root/airflow/dags/"
 
 
 
