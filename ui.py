@@ -59,9 +59,12 @@ def submit():
         if( attribute == "check" and form[key] == "on" ):
             program_list.append([name, []])
         else:
-            program_list[-1][1].append( [name, attribute] )
+            program_list[-1][1].append( [attribute, form[key]] )
 
-    print( { "mission": mission, "tasks": program_list, "output": output, "images": image_list } )
+    recipe = {"mission":mission, "tasks":program_list, "output": output, "images": image_list }
+    recipe_string = json.dumps( recipe )
+    recipe_json = json.loads( recipe_string )
+    requests.post( "http://localhost:" + str(REST_API_PORT) + "/dagtest", headers={"content-type": "application/json"}, json=recipe_json )
 
     return "Test successful."
 
