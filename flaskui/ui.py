@@ -107,6 +107,7 @@ def submit():
     recipe = {"mission":mission, "tasks":program_list, "output": output, "images": image_list, "sources": source_list, "filename": filename }
     recipe_string = json.dumps( recipe )
     recipe_json = json.loads( recipe_string )
+    
     response = requests.post( "http://localhost:" + str(REST_API_PORT) + "/submit", headers={"content-type": "application/json"}, json=recipe_json )
     print( response.text )
     response_json = json.loads( response.text )
