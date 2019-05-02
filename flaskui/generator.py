@@ -117,7 +117,7 @@ class DAGObject:
 
 
 # Generates the string for a DAG file from given list of DAG objects
-def generate_dag( dag_objects, timestamp ):
+def generate_dag( dag_objects, timestamp, output ):
     """A function that converts reformatted user request data into a string
        representation of an executable :term:`DAG`.
 
@@ -147,7 +147,7 @@ prefix = 'source activate PDS-Pipelines && python /opt/conda/envs/PDS-Pipelines/
 
 mkdir = BashOperator(
     task_id="mkdir",
-    bash_command= "mkdir /out/''' + timestamp + '''",
+    bash_command= "mkdir ''' + output + '''",
     retries=3,
     dag=dag
 )
@@ -195,9 +195,9 @@ def get_commands_from_json( request ):
     timestamp = request["filename"]
 
     if( output == "default" ):
-        ouput = "/out/" + timestamp + "/"
+        output = "/out/" + timestamp + "/"
     else:
-        output = "/usgs/" + output + "/"
+        output = "/out/" + output + "_" + timestamp + "/"
 
     commands = []
     dag_objects = []
@@ -270,7 +270,7 @@ def get_commands_from_json( request ):
     for command in commands:
         dag_objects.append( DAGObject( command ) )
 
-    return dag_objects, timestamp
+    return dag_objects, timestamp, output
 
 
 # Generates a pipeline job
@@ -288,11 +288,11 @@ def generate( data ):
     :returns: Success or failure status of generation.
     """
     print( "Test 0" )
-    dag_objects, timestamp = get_commands_from_json( data )
+    dag_objects, timestamp, output = get_commands_from_json( data )
     if( dag_objects == "parameter error" ):
         return False
     print( "Test 1" )
-    dag_string = generate_dag( dag_objects, timestamp )
+    dag_string = generate_dag( dag_objects, timestamp, output )
     print( "Test 2" )
     with open( DAG_DIRECTORY + timestamp + ".py", "w" ) as job_file:
        job_file.write( dag_string % timestamp )

@@ -99,7 +99,11 @@ def submit():
         elif( name in included_program_list ):
             program_list[-1][1].append( [attribute, form[key]] )
 
-    filename = datetime.now().strftime( "%Y_%m_%d_%H_%M_%S" )
+    if( output == "default" ):
+        filename = datetime.now().strftime( "%Y_%m_%d_%H_%M_%S" )
+    else:
+        filename = output + "_" + datetime.now().strftime( "%Y_%m_%d_%H_%M_%S" )
+
     recipe = {"mission":mission, "tasks":program_list, "output": output, "images": image_list, "sources": source_list, "filename": filename }
     recipe_string = json.dumps( recipe )
     recipe_json = json.loads( recipe_string )
