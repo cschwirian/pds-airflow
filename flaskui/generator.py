@@ -194,7 +194,10 @@ def get_commands_from_json( request ):
     sources = request["sources"]
     timestamp = request["filename"]
 
-    ouput = "/out/" + timestamp + "/"
+    if( output == "default" ):
+        ouput = "/out/" + timestamp + "/"
+    else:
+        output = "/usgs/" + output + "/"
 
     commands = []
     dag_objects = []
@@ -252,13 +255,13 @@ def get_commands_from_json( request ):
                         else:
                             parameters[index][1] = "/img/" + image
                     else:
-                        parameters[index][1] = "/out/" + timestamp + "/" + image.split(".")[0] + str(file_index) + ".cub"
+                        parameters[index][1] = output + image.split(".")[0] + str(file_index) + ".cub"
                 elif( parameters[index][0] == "to" ):
                     file_index += 1
                     if( task[0] == "isis2std" ):
-                        parameters[index][1] = "/out/" + timestamp + "/" + image.split(".")[0] + "." + parameters[-1][1]
+                        parameters[index][1] = output + image.split(".")[0] + "." + parameters[-1][1]
                     else:
-                        parameters[index][1] = "/out/" + timestamp + "/" + image.split(".")[0] + str(file_index) + ".cub"
+                        parameters[index][1] = output + image.split(".")[0] + str(file_index) + ".cub"
 
             # Performs a deepcopy to retrieve parameters for individual
             # commands, preventing other commands from overwriting them.
